@@ -38,7 +38,6 @@
   }
   a{color:inherit;}
 
-  /* ---------- NAV ---------- */
   nav{
     max-width:1080px;
     margin:0 auto;
@@ -61,7 +60,6 @@
     border-radius:3px;
   }
 
-  /* ---------- HERO ---------- */
   .hero{
     max-width:900px;
     margin:0 auto;
@@ -103,7 +101,6 @@
     border-bottom:1px solid var(--ink);
   }
 
-  /* ---------- EXAMPLE ---------- */
   .example{
     max-width:900px;
     margin:20px auto 0;
@@ -158,7 +155,6 @@
     letter-spacing:0.02em;
   }
 
-  /* ---------- WHO / WHY ---------- */
   .strip{
     border-top:1px solid var(--line);
     border-bottom:1px solid var(--line);
@@ -185,7 +181,6 @@
     margin:0;
   }
 
-  /* ---------- TOOL SECTION ---------- */
   header.tool-header{
     max-width:1080px;
     margin:0 auto;
@@ -455,7 +450,7 @@ async function compose(){
     return;
   }
   if(freeCount <= 0){
-    outputPanel.innerHTML = '<div class="error-box">You\\'ve reached today\\'s free limit. Upgrade to keep going.</div>';
+    outputPanel.innerHTML = '<div class="error-box">You have reached today&#39;s free limit. Upgrade to keep going.</div>';
     return;
   }
 
@@ -463,8 +458,6 @@ async function compose(){
   outputPanel.innerHTML = '<div class="loading">Composing your message…</div>';
 
   try{
-    // NOTE: this calls YOUR OWN backend (/api/compose), not Anthropic directly.
-    // The backend holds the real API key. See api/compose.js
     const response = await fetch("/api/compose", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
