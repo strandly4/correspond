@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Correspond — say what you mean, sound how you intend</title>
+<meta name="description" content="You know what you want to say. Correspond helps you find the right English words, tone, and structure — and explains why it works.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1a2e;
+    --paper:#f7f4ee;
+    --air-red:#c1443c;
+    --air-blue:#2f5d8a;
+    --grey:#8b8680;
+    --green:#4c7a5b;
+    --line:#d9d3c4;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .stripe-bar{
+    height:6px;
+    background:repeating-linear-gradient(
+      -45deg,
+      var(--air-red) 0px, var(--air-red) 14px,
+      var(--paper) 14px, var(--paper) 20px,
+      var(--air-blue) 20px, var(--air-blue) 34px,
+      var(--paper) 34px, var(--paper) 40px
+    );
+  }
+  a{color:inherit;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    max-width:1080px;
+    margin:0 auto;
+    padding:22px 28px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .logo{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:1.3rem;
+  }
+  .nav-cta{
+    font-size:0.88rem;
+    font-weight:600;
+    text-decoration:none;
+    border:1px solid var(--ink);
+    padding:8px 16px;
+    border-radius:3px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    max-width:900px;
+    margin:0 auto;
+    padding:70px 28px 40px;
+    text-align:left;
+  }
+  .hero h1{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:2.6rem;
+    line-height:1.2;
+    margin:0 0 18px;
+    letter-spacing:-0.01em;
+    max-width:16ch;
+  }
+  .hero p.sub{
+    font-size:1.1rem;
+    color:#3a3a52;
+    max-width:52ch;
+    line-height:1.6;
+    margin:0 0 28px;
+  }
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ink);
+    color:var(--paper);
+    padding:13px 22px;
+    border-radius:3px;
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .btn-secondary{
+    padding:13px 22px;
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.95rem;
+    color:var(--ink);
+    border-bottom:1px solid var(--ink);
+  }
+
+  /* ---------- EXAMPLE ---------- */
+  .example{
+    max-width:900px;
+    margin:20px auto 0;
+    padding:0 28px 60px;
+  }
+  .example-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    margin-top:28px;
+  }
+  @media (max-width:700px){.example-grid{grid-template-columns:1fr;}}
+  .example-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:20px 22px;
+  }
+  .example-label{
+    font-size:0.72rem;
+    font-weight:700;
+    letter-spacing:0.03em;
+    color:var(--grey);
+    margin-bottom:10px;
+  }
+  .example-card.before p{
+    font-family:'Inter',sans-serif;
+    color:#555;
+    font-size:0.95rem;
+    line-height:1.6;
+    margin:0;
+  }
+  .example-card.after p{
+    font-family:'Source Serif 4', serif;
+    font-size:1rem;
+    line-height:1.6;
+    margin:0 0 14px;
+  }
+  .why-tag{
+    font-size:0.82rem;
+    color:var(--green);
+    background:#eef4f0;
+    padding:6px 10px;
+    border-radius:3px;
+    display:inline-block;
+    margin-top:2px;
+  }
+  .section-label{
+    font-size:0.78rem;
+    font-weight:700;
+    color:var(--grey);
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- WHO / WHY ---------- */
+  .strip{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:#efeade;
+  }
+  .strip-inner{
+    max-width:900px;
+    margin:0 auto;
+    padding:44px 28px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+  }
+  @media (max-width:700px){.strip-inner{grid-template-columns:1fr;}}
+  .strip-inner h3{
+    font-family:'Source Serif 4', serif;
+    font-size:1.1rem;
+    margin:0 0 8px;
+  }
+  .strip-inner p{
+    font-size:0.92rem;
+    color:#4a4a5a;
+    line-height:1.55;
+    margin:0;
+  }
+
+  /* ---------- TOOL SECTION ---------- */
+  header.tool-header{
+    max-width:1080px;
+    margin:0 auto;
+    padding:56px 28px 24px;
+  }
+  header.tool-header h2{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:1.8rem;
+    margin:0 0 6px;
+  }
+  header.tool-header p{
+    color:var(--grey);
+    font-family:'Source Serif 4', serif;
+    font-style:italic;
+    margin:0;
+  }
+
+  main{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 28px 90px;
+    display:grid;
+    grid-template-columns:380px 1fr;
+    gap:36px;
+  }
+  @media (max-width:820px){main{grid-template-columns:1fr;}}
+
+  .field-group{margin-bottom:22px;}
+  .field-label{
+    font-size:0.78rem;
+    font-weight:600;
+    color:var(--grey);
+    margin-bottom:8px;
+    display:block;
+  }
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink);
+    padding:7px 13px;
+    border-radius:3px;
+    font-size:0.85rem;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+  textarea{
+    width:100%;
+    min-height:150px;
+    padding:14px;
+    font-family:'Source Serif 4', serif;
+    font-size:1rem;
+    line-height:1.55;
+    border:1px solid var(--line);
+    border-radius:3px;
+    background:#fff;
+    color:var(--ink);
+    resize:vertical;
+  }
+  textarea::placeholder{color:#a9a397;font-style:italic;}
+
+  .compose-btn{
+    width:100%;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:13px 18px;
+    font-size:0.95rem;
+    font-weight:600;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  .compose-btn:disabled{background:#c9c4b6;cursor:not-allowed;}
+
+  .free-counter{margin-top:12px;font-size:0.8rem;color:var(--grey);text-align:center;}
+
+  .output-panel{border-left:1px solid var(--line);padding-left:36px;}
+  @media (max-width:820px){.output-panel{border-left:none;padding-left:0;border-top:1px solid var(--line);padding-top:28px;}}
+
+  .empty-state{color:var(--grey);font-family:'Source Serif 4', serif;font-style:italic;font-size:1.05rem;padding-top:20px;}
+  .loading{font-family:'Source Serif 4', serif;font-style:italic;color:var(--grey);padding-top:20px;}
+
+  .stamp{
+    display:inline-block;
+    border:2px solid var(--air-red);
+    color:var(--air-red);
+    padding:4px 10px;
+    font-size:0.7rem;
+    font-weight:700;
+    letter-spacing:0.06em;
+    border-radius:2px;
+    transform:rotate(-2deg);
+    margin-bottom:16px;
+  }
+  .letter{
+    font-family:'Source Serif 4', serif;
+    font-size:1.08rem;
+    line-height:1.65;
+    white-space:pre-wrap;
+    padding:20px 22px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:3px;
+  }
+  .why-block{margin-top:18px;}
+  .why-title{font-size:0.78rem;font-weight:600;color:var(--green);margin-bottom:8px;}
+  .why-block ul{margin:0;padding-left:18px;font-size:0.92rem;line-height:1.6;color:#3a3a52;}
+  .why-block li{margin-bottom:5px;}
+  .tabs{display:flex;gap:4px;margin:26px 0 16px;border-bottom:1px solid var(--line);}
+  .tab{padding:9px 4px;margin-right:20px;font-size:0.88rem;color:var(--grey);cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif;border-bottom:2px solid transparent;}
+  .tab.active{color:var(--ink);border-bottom-color:var(--air-red);font-weight:600;}
+  .copy-btn{margin-top:14px;background:none;border:1px solid var(--line);padding:8px 14px;font-size:0.82rem;border-radius:3px;cursor:pointer;color:var(--ink);font-family:'Inter',sans-serif;}
+  .error-box{color:var(--air-red);font-size:0.88rem;padding-top:16px;}
+  select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:3px;background:#fff;color:var(--ink);font-family:'Inter',sans-serif;font-size:0.9rem;}
+
+  footer{
+    max-width:1080px;
+    margin:0 auto;
+    padding:30px 28px 50px;
+    color:var(--grey);
+    font-size:0.85rem;
+    border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<div class="stripe-bar"></div>
+
+<nav>
+  <div class="logo">Correspond</div>
+  <a class="nav-cta" href="#tool">Try it free</a>
+</nav>
+
+<section class="hero">
+  <h1>You know what you want to say. You just don't know how to say it.</h1>
+  <p class="sub">Correspond turns your rough draft or messy thoughts into a clear, well-toned message — and tells you exactly why the wording works, so you get better at this every time you use it.</p>
+  <div class="hero-ctas">
+    <a class="btn-primary" href="#tool">Try it free</a>
+    <a class="btn-secondary" href="#example">See an example</a>
+  </div>
+</section>
+
+<section class="example" id="example">
+  <div class="section-label">BEFORE &amp; AFTER</div>
+  <div class="example-grid">
+    <div class="example-card before">
+      <div class="example-label">WHAT YOU TYPE</div>
+      <p>"hey i cant make the meeting tmrw need to reschedule, dont want to sound like im avoiding it"</p>
+    </div>
+    <div class="example-card after">
+      <div class="example-label">WHAT YOU SEND</div>
+      <p>"Hi [Name], I won't be able to make tomorrow's meeting — could we move it to later this week? Happy to work around your schedule."</p>
+      <span class="why-tag">Leading with the reschedule request (not the apology) reads as organized, not evasive.</span>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="strip-inner">
+    <div>
+      <h3>Not just a rewrite</h3>
+      <p>Every version comes with a short note on why it's phrased that way — so you're not stuck depending on a tool forever.</p>
+    </div>
+    <div>
+      <h3>Built for real moments</h3>
+      <p>Emails, Slack messages, asking for something, saying no, apologizing — the situations you actually face at work.</p>
+    </div>
+    <div>
+      <h3>Free to start</h3>
+      <p>Five compositions a day, no account needed. Upgrade only if you want unlimited use.</p>
+    </div>
+  </div>
+</div>
+
+<header class="tool-header" id="tool">
+  <h2>Compose something</h2>
+  <p>Type it rough. We'll help you find the words.</p>
+</header>
+
+<main>
+  <section class="input-panel">
+    <div class="field-group">
+      <label class="field-label">SITUATION</label>
+      <select id="situation">
+        <option>Email</option>
+        <option>Chat / Slack message</option>
+        <option>Difficult conversation</option>
+        <option>Making a request</option>
+        <option>Following up</option>
+        <option>Declining something</option>
+        <option>Apology</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">AUDIENCE</label>
+      <select id="audience">
+        <option>My manager</option>
+        <option>A client</option>
+        <option>A colleague</option>
+        <option>Someone I don't know</option>
+        <option>A team I lead</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">TONE</label>
+      <div class="chip-row" id="toneChips">
+        <button class="chip active" data-tone="Formal">Formal</button>
+        <button class="chip" data-tone="Friendly">Friendly</button>
+        <button class="chip" data-tone="Direct">Direct</button>
+        <button class="chip" data-tone="Apologetic">Apologetic</button>
+        <button class="chip" data-tone="Assertive">Assertive</button>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">WHAT DO YOU WANT TO SAY?</label>
+      <textarea id="draftInput" placeholder="Type it rough — a few notes, a messy draft, or just describe the situation."></textarea>
+    </div>
+
+    <button class="compose-btn" id="composeBtn">Compose</button>
+    <div class="free-counter" id="counterText">5 free compositions left today</div>
+  </section>
+
+  <section class="output-panel" id="outputPanel">
+    <div class="empty-state">Your composed message will appear here, alongside a short note on why it's phrased that way.</div>
+  </section>
+</main>
+
+<footer>Correspond — say what you mean, sound how you intend.</footer>
+
+<script>
+let freeCount = 5;
+let selectedTone = 'Formal';
+let currentResult = null;
+let activeTab = 'primary';
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    selectedTone = chip.dataset.tone;
+  });
+});
+
+function updateCounter(){
+  document.getElementById('counterText').textContent =
+    freeCount > 0 ? `${freeCount} free composition${freeCount===1?'':'s'} left today` : `You've used today's free compositions`;
+}
+
+document.getElementById('composeBtn').addEventListener('click', compose);
+
+async function compose(){
+  const draft = document.getElementById('draftInput').value.trim();
+  const situation = document.getElementById('situation').value;
+  const audience = document.getElementById('audience').value;
+  const outputPanel = document.getElementById('outputPanel');
+  const btn = document.getElementById('composeBtn');
+
+  if(!draft){
+    outputPanel.innerHTML = '<div class="error-box">Type something first — even a rough sentence is enough.</div>';
+    return;
+  }
+  if(freeCount <= 0){
+    outputPanel.innerHTML = '<div class="error-box">You\\'ve reached today\\'s free limit. Upgrade to keep going.</div>';
+    return;
+  }
+
+  btn.disabled = true;
+  outputPanel.innerHTML = '<div class="loading">Composing your message…</div>';
+
+  try{
+    // NOTE: this calls YOUR OWN backend (/api/compose), not Anthropic directly.
+    // The backend holds the real API key. See api/compose.js
+    const response = await fetch("/api/compose", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ situation, audience, tone: selectedTone, draft })
+    });
+    if(!response.ok) throw new Error('Request failed');
+    const parsed = await response.json();
+
+    currentResult = parsed;
+    activeTab = 'primary';
+    freeCount -= 1;
+    updateCounter();
+    renderResult();
+  }catch(err){
+    console.error(err);
+    outputPanel.innerHTML = '<div class="error-box">Something went wrong composing that. Try again in a moment.</div>';
+  }finally{
+    btn.disabled = freeCount <= 0;
+  }
+}
+
+function renderResult(){
+  const outputPanel = document.getElementById('outputPanel');
+  if(!currentResult) return;
+
+  const versions = [
+    { key: 'primary', label: 'Suggested', data: currentResult.primary },
+    ...currentResult.alternates.map((a,i) => ({ key: 'alt'+i, label: a.label, data: a }))
+  ];
+  const current = versions.find(v => v.key === activeTab) || versions[0];
+
+  const tabsHtml = '<div class="tabs">' + versions.map(v =>
+    `<button class="tab ${v.key===activeTab?'active':''}" data-key="${v.key}">${v.label}</button>`
+  ).join('') + '</div>';
+
+  const whyHtml = current.data.why.map(w => `<li>${escapeHtml(w)}</li>`).join('');
+
+  outputPanel.innerHTML = `
+    <span class="stamp">${escapeHtml(selectedTone)}</span>
+    <div class="letter">${escapeHtml(current.data.text)}</div>
+    <div class="why-block">
+      <div class="why-title">WHY THIS WORKS</div>
+      <ul>${whyHtml}</ul>
+    </div>
+    ${tabsHtml}
+    <button class="copy-btn" id="copyBtn">Copy this version</button>
+  `;
+
+  document.querySelectorAll('.tab').forEach(tabBtn => {
+    tabBtn.addEventListener('click', () => { activeTab = tabBtn.dataset.key; renderResult(); });
+  });
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(current.data.text);
+    const btn = document.getElementById('copyBtn');
+    const original = btn.textContent;
+    btn.textContent = 'Copied';
+    setTimeout(() => btn.textContent = original, 1400);
+  });
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+updateCounter();
+</script>
+
+</body>
+</html>
