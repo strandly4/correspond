@@ -307,6 +307,60 @@
     font-size:0.85rem;
     border-top:1px solid var(--line);
   }
+
+  .feedback{
+    background:#efeade;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .feedback-inner{
+    max-width:600px;
+    margin:0 auto;
+    padding:56px 28px;
+  }
+  .feedback-inner h2{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:1.5rem;
+    margin:0 0 8px;
+  }
+  .feedback-inner p{
+    color:#4a4a5a;
+    font-size:0.95rem;
+    margin:0 0 22px;
+    line-height:1.5;
+  }
+  #feedbackForm textarea{
+    min-height:100px;
+    margin-bottom:12px;
+  }
+  #feedbackForm input[type="email"]{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    background:#fff;
+    font-family:'Inter',sans-serif;
+    font-size:0.92rem;
+    margin-bottom:14px;
+  }
+  #feedbackSubmit{
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:12px 22px;
+    font-size:0.92rem;
+    font-weight:600;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  #feedbackSubmit:disabled{background:#c9c4b6;cursor:not-allowed;}
+  #feedbackStatus{
+    margin-top:12px;
+    font-size:0.88rem;
+  }
+  #feedbackStatus.success{color:var(--green);}
+  #feedbackStatus.error{color:var(--air-red);}
 </style>
 </head>
 <body>
@@ -414,6 +468,19 @@
     <div class="empty-state">Your composed message will appear here, alongside a short note on why it's phrased that way.</div>
   </section>
 </main>
+
+<section class="feedback">
+  <div class="feedback-inner">
+    <h2>Got a minute?</h2>
+    <p>Correspond is brand new. Tell me what worked, what didn't, or what you wish it did.</p>
+    <form id="feedbackForm">
+      <textarea id="feedbackText" placeholder="Type your feedback here..." required></textarea>
+      <input type="email" id="feedbackEmail" placeholder="Your email (optional, if you want a reply)">
+      <button type="submit" id="feedbackSubmit">Send feedback</button>
+      <div id="feedbackStatus"></div>
+    </form>
+  </div>
+</section>
 
 <footer>Correspond — say what you mean, sound how you intend.</footer>
 
@@ -525,7 +592,48 @@ function escapeHtml(str){
 }
 
 updateCounter();
+
+const FEEDBACK_ENDPOINT = "https://formspree.io/f/mwlkzgqn";
+
+document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const text = document.getElementById('feedbackText').value.trim();
+  const email = document.getElementById('feedbackEmail').value.trim();
+  const statusEl = document.getElementById('feedbackStatus');
+  const btn = document.getElementById('feedbackSubmit');
+
+  if(!text){
+    statusEl.textContent = "Type something before sending.";
+    statusEl.className = "error";
+    return;
+  }
+
+  btn.disabled = true;
+  statusEl.textContent = "Sending…";
+  statusEl.className = "";
+
+  try{
+    const response = await fetch(FEEDBACK_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ message: text, email: email || "not provided" })
+    });
+    if(response.ok){
+      statusEl.textContent = "Thanks — feedback sent.";
+      statusEl.className = "success";
+      document.getElementById('feedbackText').value = '';
+      document.getElementById('feedbackEmail').value = '';
+    } else {
+      throw new Error('Failed');
+    }
+  }catch(err){
+    statusEl.textContent = "Something went wrong sending that. Try again?";
+    statusEl.className = "error";
+  }finally{
+    btn.disabled = false;
+  }
+});
 </script>
-<script defer src="/_vercel/insights/script.js"></script>
+
 </body>
 </html>
