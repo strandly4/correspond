@@ -1,6 +1,3 @@
-// This runs on the server (Vercel), never in the user's browser.
-// Your real Anthropic API key lives in an environment variable, not in this file.
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -21,13 +18,13 @@ Respond with ONLY valid JSON, no markdown fences, no commentary, matching exactl
     {"label": "short label like 'Warmer'", "text": "...", "why": ["...", "..."]}
   ]
 }
-Keep each "why" bullet under 15 words, concrete, and about the actual word/phrase choices — not generic praise.
+Keep each "why" bullet under 15 words, concrete, and about the actual word/phrase choices, not generic praise.
 Keep the message itself natural, concise, and appropriate for the situation, audience and tone given.`;
 
   const userPrompt = `Situation: ${situation}
 Audience: ${audience}
 Desired tone: ${tone}
-Rough draft / what I want to say: "${draft}"
+Rough draft or what I want to say: "${draft}"
 
 Write the message.`;
 
@@ -47,14 +44,22 @@ Write the message.`;
       })
     });
 
-    const data = await response.json();
+    const raw = await response.text();
+    console.log('Anthropic status:', response.status);
+    console.log('Anthropic raw response:', raw);
+
+    if (!response.ok) {
+      return res.status(500).json({ error: 'Anthropic API error', status: response.status, details: raw });
+    }
+
+    const data = JSON.parse(raw);
     const text = (data.content || []).map(b => b.text || '').join('');
     const clean = text.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
 
     res.status(200).json(parsed);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Composition failed' });
+    console.error('Handler error:', err);
+    res.status(500).json({ error: 'Composition failed', details: String(err) });
   }
 }
